@@ -11,6 +11,14 @@ on:
         required: true
         type: string
 jobs:
+  do_debug:
+    steps:
+      run: |
+        echo ${{ github.repository }}
+        echo ${{ github.ref }}
+        echo ${{ github.sha }}
+        echo ${{ github.run_id }}
+        echo ${{ github.event }}
   do_deploy:
     env:
       GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
