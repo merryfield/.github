@@ -12,6 +12,8 @@ on:
         type: string
 jobs:
   do_debug:
+    runs-on: ubuntu-latest
+    name: Debug
     steps:
     - run: |
         echo ${{ github.repository }}
