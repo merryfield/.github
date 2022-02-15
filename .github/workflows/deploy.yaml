@@ -44,24 +44,32 @@ jobs:
       NEW_RELIC_API_KEY_PROD: ${{secrets.NEW_RELIC_API_KEY_PROD}}
       SLACK_WEBHOOK_URL: ${{secrets.SLACK_WEBHOOK_URL}}
       JOB_NAME: Deploy ${{inputs.tag}} to ${{inputs.stack}}
+      WORKFLOW_RUN_URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
+      REF_URL: ${{github.server_url}}/${{gihub.repository}}/commits/${{github.head_ref || github.ref?.replace('refs/heads/', '')}}
     runs-on: ubuntu-latest
 #    container: 
 #      image: docker.pkg.github.com/merryfield/deployment/deployment:latest
 #      credentials:
 #        username: ${{ secrets.DEPLOY_GITHUB_USER }}
 #        password: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
-    name: Deploy ${{inputs.tag}} to ${{inputs.stack}}
+    name: ${{inputs.tag}} to ${{inputs.stack}}
     steps:
+    - name: Diag
+      run: env
     - name: Checkout
       uses: actions/checkout@v2
-    - uses: act10ns/slack@v1
+    - name: Notify Start
+      uses: act10ns/slack@v1
       with:
         status: starting
-        config: .github/config/slack.yml
+        message: |
+          *<${{env.WORKFLOW_RUN_URL}}|_${{env.JOB_NAME}}_ : _STARTING_>*
+          <${{env.REF_URL}}|`${{github.ref}}`>
+#        config: .github/config/slack.yml
     - name: Deploy
       run: |
         node /opt/deployment/index.js ${{inputs.tag}} ${{inputs.stack}}
-    - name: Notify
+    - name: Notify Finish
       uses: act10ns/slack@v1
       with:
         status: ${{job.status}}
