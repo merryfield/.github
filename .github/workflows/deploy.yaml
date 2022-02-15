@@ -52,11 +52,6 @@ jobs:
 #        password: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
     name: Deploy ${{inputs.tag}} to ${{inputs.stack}}
     steps:
-    - name: Diag
-      run: |
-        echo ${{inputs.tag}}
-        echo ${{inputs.stack}}
-        echo ${{JSON.stringify(inputs)}}
     - name: Checkout
       uses: actions/checkout@v2
     - uses: act10ns/slack@v1
