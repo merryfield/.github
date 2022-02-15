@@ -45,7 +45,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{secrets.SLACK_WEBHOOK_URL}}
       JOB_NAME: Deploy ${{inputs.tag}} to ${{inputs.stack}}
       WORKFLOW_RUN_URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
-      REF_URL: ${{github.server_url}}/${{github.repository}}/commits/${{github.ref_name}}
+      REF_URL: ${{github.server_url}}/${{github.repository}}/tree/${{github.ref_name}}
     runs-on: ubuntu-latest
 #    container: 
 #      image: docker.pkg.github.com/merryfield/deployment/deployment:latest
