@@ -11,7 +11,7 @@ on:
         required: true
         type: string
     secrets:
-      GITHUB_TOKEN:
+      DEPLOY_GITHUB_TOKEN:
         required: true
       AWS_ECR_URI:
         required: true
