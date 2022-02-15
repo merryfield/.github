@@ -56,8 +56,6 @@ jobs:
         password: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
     name: ${{inputs.tag}} to ${{inputs.stack}}
     steps:
-    - name: Diag
-      run: env
     - name: Checkout
       uses: actions/checkout@v2
     - name: Notify Start
