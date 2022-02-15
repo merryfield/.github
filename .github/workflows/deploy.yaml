@@ -13,7 +13,7 @@ on:
 jobs:
   do_debug:
     steps:
-      run: |
+    - run: |
         echo ${{ github.repository }}
         echo ${{ github.ref }}
         echo ${{ github.sha }}
