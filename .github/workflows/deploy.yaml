@@ -33,6 +33,7 @@ jobs:
   do_deploy:
     env:
       DEPLOY_GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
       DEPLOY_REPO: ${{github.repository}}
       DEPLOY_OWNER: merryfield
       DEPLOY_BRANCH: ${{github.ref}}
