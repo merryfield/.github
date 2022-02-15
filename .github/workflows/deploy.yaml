@@ -30,7 +30,7 @@ on:
 jobs:
   do_deploy:
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DEPLOY_GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
       DEPLOY_REPO: ${{ github.repository }}
       DEPLOY_OWNER: merryfield
       DEPLOY_BRANCH: ${{ github.ref }}
