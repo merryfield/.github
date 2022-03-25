@@ -64,6 +64,7 @@ jobs:
       with:
         status: starting
         message: |
+          _${{env.DEPLOY_REPO}}_
           *<${{env.WORKFLOW_RUN_URL}}|_${{env.JOB_NAME}}_ : _{{jobStatus}}_>*
           <${{env.REF_URL}}|`${{github.ref_name}}`>
     - name: Deploy
@@ -74,6 +75,7 @@ jobs:
       with:
         status: ${{job.status}}
         message: |
+          _${{env.DEPLOY_REPO}}_
           *<${{env.WORKFLOW_RUN_URL}}|_${{env.JOB_NAME}}_ : _{{jobStatus}}_>*
           <${{env.REF_URL}}|`${{github.ref_name}}`>        
       if: always()
