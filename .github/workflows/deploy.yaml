@@ -17,9 +17,9 @@ on:
         required: true
       AWS_ECR_URI:
         required: true
-      AWS_ACCOUNT_ID: 
+      AWS_ACCOUNT_ID:
         required: true
-      AWS_ACCESS_KEY_ID: 
+      AWS_ACCESS_KEY_ID:
         required: true
       AWS_SECRET_ACCESS_KEY:
         required: true
@@ -27,7 +27,7 @@ on:
         required: true
       NEW_RELIC_API_KEY_PROD:
         required: true
-      SLACK_WEBHOOK_URL: 
+      SLACK_WEBHOOK_URL:
         required: true
 jobs:
   do_deploy:
@@ -50,7 +50,7 @@ jobs:
       WORKFLOW_RUN_URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
       REF_URL: ${{github.server_url}}/${{github.repository}}/tree/${{github.ref_name}}
     runs-on: ubuntu-latest
-    container: 
+    container:
       image: docker.pkg.github.com/merryfield/deployment/deployment:latest
       credentials:
         username: ${{ secrets.DEPLOY_GITHUB_USER }}
@@ -58,9 +58,9 @@ jobs:
     name: ${{inputs.tag}} to ${{inputs.stack}}
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Notify Start
-      uses: act10ns/slack@v1
+      uses: act10ns/slack@v2
       with:
         status: starting
         message: |
@@ -71,11 +71,11 @@ jobs:
       run: |
         node /opt/deployment/index.js ${{inputs.tag}} ${{inputs.stack}}
     - name: Notify Finish
-      uses: act10ns/slack@v1
+      uses: act10ns/slack@v2
       with:
         status: ${{job.status}}
         message: |
           _${{env.DEPLOY_REPO}}_
           *<${{env.WORKFLOW_RUN_URL}}|_${{env.JOB_NAME}}_ : _{{jobStatus}}_>*
-          <${{env.REF_URL}}|`${{github.ref_name}}`>        
+          <${{env.REF_URL}}|`${{github.ref_name}}`>
       if: always()
