@@ -8,7 +8,7 @@ on:
         type: string
       stack:
         description: "The stack to deploy to"
-        required: true
+        required: false
         type: string
     secrets:
       DEPLOY_GITHUB_USER:
