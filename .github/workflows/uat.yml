@@ -1,36 +1,9 @@
-name: Deploy
+name: Destroy UAT resources
 on:
-  workflow_call:
-    inputs:
-      tag:
-        description: "The tag to deploy"
-        required: true
-        type: string
-      stack:
-        description: "The stack to deploy to"
-        required: false
-        type: string
-    secrets:
-      DEPLOY_GITHUB_USER:
-        required: true
-      DEPLOY_GITHUB_TOKEN:
-        required: true
-      AWS_ECR_URI:
-        required: true
-      AWS_ACCOUNT_ID:
-        required: true
-      AWS_ACCESS_KEY_ID:
-        required: true
-      AWS_SECRET_ACCESS_KEY:
-        required: true
-      NEW_RELIC_API_KEY:
-        required: true
-      NEW_RELIC_API_KEY_PROD:
-        required: true
-      SLACK_WEBHOOK_URL:
-        required: true
+  pull_request:
+    types: [ closed ]
 jobs:
-  do_deploy:
+  destroy_uat_resources:
     env:
       DEPLOY_GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
@@ -46,7 +19,7 @@ jobs:
       NEW_RELIC_API_KEY: ${{secrets.NEW_RELIC_API_KEY}}
       NEW_RELIC_API_KEY_PROD: ${{secrets.NEW_RELIC_API_KEY_PROD}}
       SLACK_WEBHOOK_URL: ${{secrets.SLACK_WEBHOOK_URL}}
-      JOB_NAME: Deploy ${{inputs.tag}} to ${{inputs.stack}}
+      JOB_NAME: Destroy UAT Resources for PR ${{github.event.number}}
       WORKFLOW_RUN_URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
       REF_URL: ${{github.server_url}}/${{github.repository}}/tree/${{github.ref_name}}
     runs-on: ubuntu-latest
@@ -55,10 +28,8 @@ jobs:
       credentials:
         username: ${{ secrets.DEPLOY_GITHUB_USER }}
         password: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
-    name: ${{inputs.tag}} to ${{inputs.stack}}
+    name: Destroy UAT Resources for PR ${{github.event.number}}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
     - name: Notify Start
       uses: act10ns/slack@v2
       with:
@@ -67,9 +38,9 @@ jobs:
           _${{env.DEPLOY_REPO}}_
           *<${{env.WORKFLOW_RUN_URL}}|_${{env.JOB_NAME}}_ : _{{jobStatus}}_>*
           <${{env.REF_URL}}|`${{github.ref_name}}`>
-    - name: Deploy
+    - name: Destroy UAT Resources
       run: |
-        node /opt/deployment/index.js ${{inputs.tag}} ${{inputs.stack}}
+        node /opt/deployment/index.js -1 -1 ${{github.event.number}}
     - name: Notify Finish
       uses: act10ns/slack@v2
       with:
